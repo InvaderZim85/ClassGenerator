@@ -3,6 +3,8 @@ Name: Max
 Surname: Mustermann
 Street: Musterstraße
 HouseNumber: 1000
+HouseNumber: 4
 Birthday: 12.01.1985 00:00:00
 Locked: false
+Locked: true
 _Test: 1,2345

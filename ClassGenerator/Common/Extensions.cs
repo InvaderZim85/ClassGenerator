@@ -20,6 +20,7 @@ internal static partial class Extensions
     /// Extracts the type of the property
     /// </summary>
     /// <param name="property">The property</param>
+    /// <param name="result">The converted value</param>
     /// <returns>The data type</returns>
     public static DataType GetDataType(this PropertyEntry property, out object result)
     {

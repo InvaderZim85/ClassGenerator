@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             tableLayoutPanel = new TableLayoutPanel();
             labelSourceFile = new Label();
             labelNamespace = new Label();
@@ -43,6 +44,7 @@
             panelButtons = new Panel();
             buttonCreate = new Button();
             panelBottom = new Panel();
+            buttonCopy = new Button();
             labelInfo = new Label();
             buttonSave = new Button();
             buttonClear = new Button();
@@ -53,7 +55,9 @@
             checkBoxAddSummary = new CheckBox();
             checkBoxFileScopedNamespace = new CheckBox();
             errorProvider = new ErrorProvider(components);
-            buttonCopy = new Button();
+            labelModifier = new Label();
+            comboBoxModifier = new ComboBox();
+            checkBoxSealed = new CheckBox();
             tableLayoutPanel.SuspendLayout();
             tabControl.SuspendLayout();
             tabPageClass.SuspendLayout();
@@ -72,23 +76,26 @@
             tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
             tableLayoutPanel.Controls.Add(labelSourceFile, 0, 0);
             tableLayoutPanel.Controls.Add(labelNamespace, 0, 2);
-            tableLayoutPanel.Controls.Add(tabControl, 0, 5);
+            tableLayoutPanel.Controls.Add(tabControl, 0, 6);
             tableLayoutPanel.Controls.Add(buttonBrowseSource, 2, 0);
             tableLayoutPanel.Controls.Add(textBoxSource, 1, 0);
             tableLayoutPanel.Controls.Add(textBoxNamespace, 1, 2);
-            tableLayoutPanel.Controls.Add(panelButtons, 0, 4);
-            tableLayoutPanel.Controls.Add(panelBottom, 0, 6);
+            tableLayoutPanel.Controls.Add(panelButtons, 0, 5);
+            tableLayoutPanel.Controls.Add(panelBottom, 0, 7);
             tableLayoutPanel.Controls.Add(textBoxClassName, 1, 1);
             tableLayoutPanel.Controls.Add(labelClassName, 0, 1);
-            tableLayoutPanel.Controls.Add(labelOptions, 0, 3);
-            tableLayoutPanel.Controls.Add(panelOptions, 1, 3);
+            tableLayoutPanel.Controls.Add(labelOptions, 0, 4);
+            tableLayoutPanel.Controls.Add(panelOptions, 1, 4);
+            tableLayoutPanel.Controls.Add(labelModifier, 0, 3);
+            tableLayoutPanel.Controls.Add(comboBoxModifier, 1, 3);
             tableLayoutPanel.Dock = DockStyle.Fill;
             tableLayoutPanel.Location = new Point(0, 0);
             tableLayoutPanel.Name = "tableLayoutPanel";
-            tableLayoutPanel.RowCount = 7;
+            tableLayoutPanel.RowCount = 8;
             tableLayoutPanel.RowStyles.Add(new RowStyle());
             tableLayoutPanel.RowStyles.Add(new RowStyle());
             tableLayoutPanel.RowStyles.Add(new RowStyle());
+            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 29F));
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 29F));
             tableLayoutPanel.RowStyles.Add(new RowStyle());
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
@@ -124,10 +131,10 @@
             tabControl.Controls.Add(tabPageClass);
             tabControl.Controls.Add(tabPageError);
             tabControl.Dock = DockStyle.Fill;
-            tabControl.Location = new Point(3, 148);
+            tabControl.Location = new Point(3, 177);
             tabControl.Name = "tabControl";
             tabControl.SelectedIndex = 0;
-            tabControl.Size = new Size(975, 485);
+            tabControl.Size = new Size(975, 456);
             tabControl.TabIndex = 3;
             // 
             // tabPageClass
@@ -136,7 +143,7 @@
             tabPageClass.Location = new Point(4, 24);
             tabPageClass.Name = "tabPageClass";
             tabPageClass.Padding = new Padding(3);
-            tabPageClass.Size = new Size(967, 457);
+            tabPageClass.Size = new Size(967, 428);
             tabPageClass.TabIndex = 0;
             tabPageClass.Text = "Class";
             tabPageClass.UseVisualStyleBackColor = true;
@@ -149,7 +156,7 @@
             scintillaClass.Location = new Point(3, 3);
             scintillaClass.Name = "scintillaClass";
             scintillaClass.ScrollWidth = 49;
-            scintillaClass.Size = new Size(961, 451);
+            scintillaClass.Size = new Size(961, 422);
             scintillaClass.TabIndex = 0;
             scintillaClass.Delete += Scintilla_Delete;
             scintillaClass.Insert += Scintilla_Insert;
@@ -209,7 +216,7 @@
             tableLayoutPanel.SetColumnSpan(panelButtons, 3);
             panelButtons.Controls.Add(buttonCreate);
             panelButtons.Dock = DockStyle.Fill;
-            panelButtons.Location = new Point(0, 116);
+            panelButtons.Location = new Point(0, 145);
             panelButtons.Margin = new Padding(0);
             panelButtons.Name = "panelButtons";
             panelButtons.Size = new Size(981, 29);
@@ -240,6 +247,17 @@
             panelBottom.Name = "panelBottom";
             panelBottom.Size = new Size(981, 29);
             panelBottom.TabIndex = 10;
+            // 
+            // buttonCopy
+            // 
+            buttonCopy.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            buttonCopy.Location = new Point(822, 3);
+            buttonCopy.Name = "buttonCopy";
+            buttonCopy.Size = new Size(75, 23);
+            buttonCopy.TabIndex = 2;
+            buttonCopy.Text = "Copy";
+            buttonCopy.UseVisualStyleBackColor = true;
+            buttonCopy.Click += ButtonCopy_Click;
             // 
             // labelInfo
             // 
@@ -294,7 +312,7 @@
             // 
             labelOptions.AutoSize = true;
             labelOptions.Dock = DockStyle.Fill;
-            labelOptions.Location = new Point(3, 87);
+            labelOptions.Location = new Point(3, 116);
             labelOptions.Name = "labelOptions";
             labelOptions.Size = new Size(72, 29);
             labelOptions.TabIndex = 14;
@@ -303,10 +321,11 @@
             // 
             // panelOptions
             // 
+            panelOptions.Controls.Add(checkBoxSealed);
             panelOptions.Controls.Add(checkBoxAddSummary);
             panelOptions.Controls.Add(checkBoxFileScopedNamespace);
             panelOptions.Dock = DockStyle.Fill;
-            panelOptions.Location = new Point(78, 87);
+            panelOptions.Location = new Point(78, 116);
             panelOptions.Margin = new Padding(0);
             panelOptions.Name = "panelOptions";
             panelOptions.Size = new Size(863, 29);
@@ -336,16 +355,36 @@
             // 
             errorProvider.ContainerControl = this;
             // 
-            // buttonCopy
+            // labelModifier
             // 
-            buttonCopy.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            buttonCopy.Location = new Point(822, 3);
-            buttonCopy.Name = "buttonCopy";
-            buttonCopy.Size = new Size(75, 23);
-            buttonCopy.TabIndex = 2;
-            buttonCopy.Text = "Copy";
-            buttonCopy.UseVisualStyleBackColor = true;
-            buttonCopy.Click += ButtonCopy_Click;
+            labelModifier.AutoSize = true;
+            labelModifier.Dock = DockStyle.Fill;
+            labelModifier.Location = new Point(3, 87);
+            labelModifier.Name = "labelModifier";
+            labelModifier.Size = new Size(72, 29);
+            labelModifier.TabIndex = 16;
+            labelModifier.Text = "Modifier:";
+            labelModifier.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // comboBoxModifier
+            // 
+            comboBoxModifier.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxModifier.FormattingEnabled = true;
+            comboBoxModifier.Items.AddRange(new object[] { "public", "internal", "protected", "protected internal" });
+            comboBoxModifier.Location = new Point(81, 90);
+            comboBoxModifier.Name = "comboBoxModifier";
+            comboBoxModifier.Size = new Size(257, 23);
+            comboBoxModifier.TabIndex = 17;
+            // 
+            // checkBoxSealed
+            // 
+            checkBoxSealed.AutoSize = true;
+            checkBoxSealed.Location = new Point(266, 8);
+            checkBoxSealed.Name = "checkBoxSealed";
+            checkBoxSealed.Size = new Size(94, 19);
+            checkBoxSealed.TabIndex = 15;
+            checkBoxSealed.Text = "'Sealed' class";
+            checkBoxSealed.UseVisualStyleBackColor = true;
             // 
             // FormMain
             // 
@@ -353,6 +392,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(981, 665);
             Controls.Add(tableLayoutPanel);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FormMain";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "ClassGenerator";
@@ -399,5 +439,8 @@
         private CheckBox checkBoxAddSummary;
         private Label labelInfo;
         private Button buttonCopy;
+        private Label labelModifier;
+        private ComboBox comboBoxModifier;
+        private CheckBox checkBoxSealed;
     }
 }

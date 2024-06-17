@@ -1,0 +1,9 @@
+Name        ;Value               ;Type
+Id          ;35000               ;int
+Name        ;Max                 ;
+Surname     ;Mustermann          ;
+Street      ;Musterstraße        ;
+HouseNumber ;1000                ;int
+Birthday    ;12.01.1985 00:00:00 ;
+Locked      ;false               ;
+_Test       ;1,2345              ;decimal

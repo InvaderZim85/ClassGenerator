@@ -1,5 +1,6 @@
 using ClassGenerator.Business;
 using ClassGenerator.Common;
+using ClassGenerator.DataObjects;
 using ScintillaNET;
 
 namespace ClassGenerator;
@@ -33,8 +34,18 @@ public partial class FormMain : Form
 
         try
         {
-            var result = await Generator.GenerateClassAsync(textBoxSource.Text, textBoxClassName.Text,
-                textBoxNamespace.Text, checkBoxFileScopedNamespace.Checked, checkBoxAddSummary.Checked);
+            var options = new GeneratorOptions
+            {
+                SourceFile = textBoxSource.Text,
+                ClassName = textBoxClassName.Text,
+                NameSpace = textBoxNamespace.Text,
+                Modifier = comboBoxModifier.Text,
+                FileScopedNamespace = checkBoxFileScopedNamespace.Checked,
+                AddSummary = checkBoxAddSummary.Checked,
+                SealedClass = checkBoxSealed.Checked
+            };
+
+            var result = await Generator.GenerateClassAsync(options);
 
             scintillaClass.Text = result.ClassCode;
             textBoxError.Text = result.ErrorMessage;
@@ -67,7 +78,7 @@ public partial class FormMain : Form
     private bool InputValid()
     {
         const string mandatoryFieldMessage = "Mandatory field. Must not be empty.";
-        const string classNameFailure = "The name of the class must not begin with a number.";
+        const string classNameFailure = "The name must not begin with a number.";
 
         var isValid = true;
         errorProvider.Clear();
@@ -86,6 +97,12 @@ public partial class FormMain : Form
         else if (textBoxClassName.Text.StartsWithNumber())
         {
             SetError(textBoxClassName, classNameFailure);
+            isValid = false;
+        }
+
+        if (!string.IsNullOrWhiteSpace(textBoxNamespace.Text) && textBoxNamespace.Text.StartsWithNumber())
+        {
+            SetError(textBoxNamespace, classNameFailure);
             isValid = false;
         }
 
@@ -209,6 +226,8 @@ public partial class FormMain : Form
         // Set the keywords
         scintillaClass.SetKeywords(0, "abstract as base break case catch checked continue default delegate do else event explicit extern false finally fixed for foreach goto if implicit in interface internal is lock namespace new null object operator out override params private protected public readonly ref return sealed sizeof stackalloc switch this throw true try typeof unchecked unsafe using virtual while");
         scintillaClass.SetKeywords(1, "DateTime bool byte char class const decimal double enum float int long sbyte short static string struct uint ulong ushort void");
+
+        comboBoxModifier.SelectedIndex = 0;
     }
 
     /// <summary>
